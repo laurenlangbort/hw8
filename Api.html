@@ -1,0 +1,76 @@
+<html>
+    <head> 
+        <meta charset="utf-8"> 
+        <title> API fun </title> 
+        <style type="text/css">   
+            body {background-color: rgb(228, 228, 228)}
+            body,html {font-family: sans-serif;} 
+            h1 {color: rgb(249, 157, 172); text-align: center; padding-bottom: 35px;
+            padding-top: 35px;} 
+            p {color: rgb(123, 122, 122); line-height: 1.5; margin: 20px 20px;}
+        </style>  
+        
+    </head>  
+    <body> 
+        <h1> API Fun - assignment 8 </h1> 
+        <button id="AJAX" value="AJAX" onclick="requestData()">AJAX request</button>
+        <button id="Fetch" value="Fetch" onclick="useFetch()">Fetch request</button> 
+        <div id="ajax_req"></div> 
+        <div id="fetch_req"></div>  
+        <p> 
+            The API I chose is Corporate BS/Buzzword Generator. It generates
+            random buzzwords related to the corporate world that are confusing in 
+            order to mock the corporate industry. It can be used on applications in 
+            order to get ahead in an industry ?! I found it on the github public api 
+            list and this is the website to access it 
+            "https://corporatebs-generator.sameerkumar.website/". When you click on the 
+            AJAX button it does an API request using XMLHttpRequest(). When you click 
+            on the Fetch button it does an API request using fetch(). I think this API
+            is mainly used for fun and entertainment. But it could also be useful in 
+            coming up with different corporate skills one may have or coming up with 
+            ideas for corporate industry jobs.
+
+        </p> 
+    </body>
+<script crossorigin="anonymous">
+function requestData() 
+{ 
+    var request = new XMLHttpRequest();   
+    console.log("request");
+    if ( ! request) 
+    { 
+        alert("Unable to create HTTPRequest object"); 
+        return;
+    }    
+    var info = "";
+    request.onreadystatechange = (function() { 
+        if ((this.readyState == 4) && (this.status == 200)) 
+        { 
+            var data = this.responseText;  
+            info = data; 
+            var parse = JSON.parse(data); 
+            document.getElementById("ajax_req").innerHTML = "<br>" + parse.phrase;  
+            
+        } 
+    });  
+    request.open("GET", "https://corporatebs-generator.sameerkumar.website/", true);   
+    request.send();  
+}
+
+
+function useFetch () 
+{ 
+    var res = fetch ("https://corporatebs-generator.sameerkumar.website/")
+        .then (res => res.text()) 
+        .then(data => { 
+            data = JSON.parse(data); 
+            data = data.phrase;
+            document.getElementById("fetch_req").innerHTML = "<br>" + data;  
+        }) 
+        .catch(error => console.log(error)) 
+}  
+
+
+
+</script> 
+</html>
